@@ -36,6 +36,11 @@
             <id>local-repo</id>
             <url>file://${project.basedir}/repo</url>
         </repository>
+        <!-- gwt-dnd -->
+        <repository>
+            <id>sonatype</id>
+            <url>http://repository.sonatype.org/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -61,6 +66,12 @@
             <groupId>com.hydro4ge</groupId>
             <artifactId>raphaelgwt</artifactId>
             <version>r42</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.allen-sauer.gwt.dnd</groupId>
+            <artifactId>gwt-dnd</artifactId>
+            <version>3.1.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

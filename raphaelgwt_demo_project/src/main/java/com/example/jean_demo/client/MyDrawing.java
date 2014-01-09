@@ -16,6 +16,7 @@ package com.example.jean_demo.client;
  * limitations under the License.
  */
 
+import com.allen_sauer.gwt.dnd.client.PickupDragController;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -24,8 +25,11 @@ import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
+import com.google.gwt.user.client.ui.RootPanel;
 import com.hydro4ge.raphaelgwt.client.Raphael;
 import com.hydro4ge.raphaelgwt.client.PathBuilder;
+
+import com.hydro4ge.dnd.client.DraggableCircle;
 
 /**
  * simple drawing demonstration
@@ -39,7 +43,6 @@ public class MyDrawing extends Raphael {
   /**
    * a clickable, mousewheel-able circle
    */
-  /*
   public class Circle extends Raphael.Circle
       implements HasClickHandlers, HasMouseWheelHandlers
   {
@@ -55,7 +58,7 @@ public class MyDrawing extends Raphael {
       return this.addDomHandler(handler, MouseWheelEvent.getType());
     }
   }
-*/
+
   /**
    * MyDrawing constructor
    */
@@ -76,11 +79,51 @@ public class MyDrawing extends Raphael {
   public void onLoad() {
     super.onLoad();
 
-    final Raphael.Rect c1 = new Raphael.Rect(cx*0.5, cy, 150, 100, 20);
-    final Raphael.Rect c2 = new Raphael.Rect(cx*1.5, cy, 150, 100, 20);
+    // ensure the document BODY has dimensions in standards mode
+    RootPanel.get().setPixelSize(600, 600);
 
-    c1.attr("fill", "#d1b48c");
-    c2.attr("fill", "#d1b48c");
+    // workaround for GWT issue 1813
+    // http://code.google.com/p/google-web-toolkit/issues/detail?id=1813
+    RootPanel.get().getElement().getStyle().setProperty("position" , "relative");
+
+    final double box1_x = cx * 0.5;
+    final double box1_y = cy * 0.5;
+
+    final double box2_x = cx * 0.8;
+    final double box2_y = cy * 0.5;
+
+    final double circ0_x = cx * 0.5;
+    final double circ0_y = cy * 0.5;
+
+    final Raphael.Rect box1 = new Raphael.Rect(box1_x, box1_y, 50,  100, 20);
+    final Raphael.Rect box2 = new Raphael.Rect(box2_x, box2_y, 150, 100, 20);
+
+    final Circle circ0 = new Circle(circ0_x, circ0_y, 20);
+    circ0.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        circ0.attr("fill", "green");
+      }
+    });
+
+    PathBuilder pb = new PathBuilder();
+    pb.M(box1_x,  box1_y);
+    pb.L(circ0_x, circ0_y);
+            // box1_x, box1_y, circ0_x, circ0_y);
+
+    box1.attr("fill", "red");
+    box2.attr("fill", "#d1b48c");
+
+    // create a DragController to manage drag-n-drop actions
+    // note: This creates an implicit DropController for the boundary panel
+    PickupDragController dragController = new PickupDragController(RootPanel.get(), true);
+
+    // add a new circle to the boundary panel and make it draggable
+    DraggableCircle d = new DraggableCircle(40);
+    RootPanel.get().add(d, 60, 30);
+    dragController.makeDraggable(d);
+    //dragController.makeDraggable(box1);
+
   }
 
 }
