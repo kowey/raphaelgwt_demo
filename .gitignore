@@ -1,0 +1,28 @@
+# java
+*.class
+
+# boilerplate generated classes #
+.apt_generated/
+
+# build files
+target/
+TEST-*.txt
+
+# IDE files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# WebProtege specific files
+webprotege.properties
+mail.properties
+
+# testing WebProtege
+logs/
+
+# others
+.svn/
+.DS_Store
+/docs
