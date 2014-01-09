@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>raphaelgwt_demo</artifactId>
+    <version>0.1</version>
+    <packaging>war</packaging>
+
+    <name>Raphaelgwt_demo_project</name>
+
+    <properties>
+        <!-- Convenience property to set the GWT version -->
+        <gwtVersion>2.5.1</gwtVersion>
+        <!-- We need to refer to the Lombok jar later on, particularly in the GWT compiler -->
+        <lombokVersion>1.12.2</lombokVersion>
+        <!-- Is there a better way to do this? I would just use the maven-dependency-plugin
+             and grab ${org.projectlombok:lombok:jar}, but it doesn't seem to be accessible
+             where it counts from the gwt:run goal (unless I do mvn validate gwt:run) -->
+        <lombokJar>${settings.localRepository}/org/projectlombok/lombok/${lombokVersion}/lombok-${lombokVersion}.jar</lombokJar>
+        <springframeworkVersion>3.2.4.RELEASE</springframeworkVersion>
+        <!-- GWT needs at least java 1.5 -->
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <!-- The GWT-Ext people maintain their own Maven repo -->
+        <repository>
+            <id>gwtext</id>
+            <url>http://www.gwt-ext.com/maven2/</url>
+        </repository>
+        <!-- We have to carry around some things, so put them in
+             a local repository -->
+        <repository>
+            <id>local-repo</id>
+            <url>file://${project.basedir}/repo</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
+            <version>${gwtVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwtVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombokVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hydro4ge</groupId>
+            <artifactId>raphaelgwt</artifactId>
+            <version>r42</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Generate compiled stuff in the folder used for developing mode -->
+        <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+        <plugins>
+
+            <!-- GWT Maven Plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test</goal>
+                            <!--  Don't generateAsync as we do this manually
+                                <goal>generateAsync</goal> -->
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- Plugin configuration. There are many available options, see
+                  gwt-maven-plugin documentation at codehaus.org -->
+                <configuration>
+                    <!-- It's necessary to let GWT Complile eat a lot of memory -->
+                    <extraJvmArgs>-Xmx1024M -Xss1024k -javaagent:${lombokJar}=ECJ</extraJvmArgs>
+                    <runTarget>${project.name}.html</runTarget>
+                    <hostedWebapp>${webappDirectory}</hostedWebapp>
+                </configuration>
+            </plugin>
+
+
+            <!-- Copy static web files before executing gwt:run -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exploded</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- Standard compiler configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
