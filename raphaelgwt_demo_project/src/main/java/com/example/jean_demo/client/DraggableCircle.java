@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.hydro4ge.dnd.client;
+package com.example.jean_demo.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseMoveHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -31,22 +32,39 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.hydro4ge.raphaelgwt.client.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DraggableCircle extends Raphael
     implements HasMouseDownHandlers, HasMouseUpHandlers, HasMouseMoveHandlers, HasMouseOutHandlers
 {
-  static final private int PADDING = 5;
-  private int radius;
+  static  final private int PADDING = 5;
+  private final int radius;
+  private final Map<String, String> attrs;
+
+  private Circle circle;
 
   public DraggableCircle(int radius) {
     super((radius+PADDING)*2, (radius+PADDING)*2);
     this.radius = radius;
+    this.attrs  = new HashMap<String, String>();
   }
 
   @Override
   public void onLoad() {
     super.onLoad();
-    Circle c = new Circle(this.radius+PADDING, this.radius+PADDING, this.radius);
-    c.attr("fill", "#666");
+    circle = new Circle(this.radius+PADDING, this.radius+PADDING, this.radius);
+    circle.attr("fill", "#666");
+    for (Map.Entry<String, String> entry : attrs.entrySet()) {
+        circle.attr(entry.getKey(), entry.getValue());
+    }
+  }
+
+  public void attr(String key, String value) {
+    attrs.put(key, value);
+    if (circle != null) {
+      circle.attr(key, value);
+    }
   }
 
   public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {

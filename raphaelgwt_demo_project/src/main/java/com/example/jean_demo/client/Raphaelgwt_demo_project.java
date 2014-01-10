@@ -21,6 +21,12 @@ public class Raphaelgwt_demo_project implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+
+    // Cargo-culted from raphaelgwt demo; not sure how important it is to us
+    // workaround for GWT issue 1813
+    // http://code.google.com/p/google-web-toolkit/issues/detail?id=1813
+    RootPanel.get().getElement().getStyle().setProperty("position" , "relative");
+
 		MyDrawing d = new MyDrawing(Window.getClientWidth(),
 				Window.getClientHeight());
 		RootPanel.get().add(d);

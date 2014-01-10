@@ -17,19 +17,11 @@ package com.example.jean_demo.client;
  */
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.HasMouseWheelHandlers;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.dom.client.*;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.hydro4ge.raphaelgwt.client.Raphael;
 import com.hydro4ge.raphaelgwt.client.PathBuilder;
-
-import com.hydro4ge.dnd.client.DraggableCircle;
 
 /**
  * simple drawing demonstration
@@ -39,25 +31,6 @@ public class MyDrawing extends Raphael {
   /* center point of the drawing */
   private int cx;
   private int cy;
-
-  /**
-   * a clickable, mousewheel-able circle
-   */
-  public class Circle extends Raphael.Circle
-      implements HasClickHandlers, HasMouseWheelHandlers
-  {
-    public Circle(double x, double y, double node_size) {
-      super(x, y, node_size);
-    }
-
-    public HandlerRegistration addClickHandler(ClickHandler handler) {
-      return this.addDomHandler(handler, ClickEvent.getType());
-    }
-
-    public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
-      return this.addDomHandler(handler, MouseWheelEvent.getType());
-    }
-  }
 
   /**
    * MyDrawing constructor
@@ -79,32 +52,20 @@ public class MyDrawing extends Raphael {
   public void onLoad() {
     super.onLoad();
 
-    // ensure the document BODY has dimensions in standards mode
-    RootPanel.get().setPixelSize(600, 600);
+    final int box1_x = (int)Math.round(cx * 0.5);
+    final int box1_y = (int)Math.round(cy * 0.5);
 
-    // workaround for GWT issue 1813
-    // http://code.google.com/p/google-web-toolkit/issues/detail?id=1813
-    RootPanel.get().getElement().getStyle().setProperty("position" , "relative");
+    final int box2_x = (int)Math.round(cx * 0.8);
+    final int box2_y = (int)Math.round(cy * 0.5);
 
-    final double box1_x = cx * 0.5;
-    final double box1_y = cy * 0.5;
+    final int circ0_x = (int)Math.round(cx * 0.5);
+    final int circ0_y = (int)Math.round(cy * 0.5);
 
-    final double box2_x = cx * 0.8;
-    final double box2_y = cy * 0.5;
-
-    final double circ0_x = cx * 0.5;
-    final double circ0_y = cy * 0.5;
+    final int circ1_x = 30;
+    final int circ1_y = 60;
 
     final Raphael.Rect box1 = new Raphael.Rect(box1_x, box1_y, 50,  100, 20);
     final Raphael.Rect box2 = new Raphael.Rect(box2_x, box2_y, 150, 100, 20);
-
-    final Circle circ0 = new Circle(circ0_x, circ0_y, 20);
-    circ0.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        circ0.attr("fill", "green");
-      }
-    });
 
     PathBuilder pb = new PathBuilder();
     pb.M(box1_x,  box1_y);
@@ -116,13 +77,26 @@ public class MyDrawing extends Raphael {
 
     // create a DragController to manage drag-n-drop actions
     // note: This creates an implicit DropController for the boundary panel
-    PickupDragController dragController = new PickupDragController(RootPanel.get(), true);
+    final PickupDragController dragController = new PickupDragController(RootPanel.get(), true);
 
     // add a new circle to the boundary panel and make it draggable
-    DraggableCircle d = new DraggableCircle(40);
-    RootPanel.get().add(d, 60, 30);
-    dragController.makeDraggable(d);
-    //dragController.makeDraggable(box1);
+    final DraggableCircle circ1 = new DraggableCircle(40);
+    final DraggableCircle circ0 = new DraggableCircle(20);
+
+    dragController.makeDraggable(circ0);
+    dragController.makeDraggable(circ1);
+
+    circ0.addMouseDownHandler(new MouseDownHandler() {
+      @Override
+      public void onMouseDown(MouseDownEvent event) {
+        circ0.attr("fill", "green");
+      }
+    });
+
+    // FIXME: I'm not thrilled about accessing the RootPanel directly here but
+    // I can't seem to find a way around it
+    RootPanel.get().add(circ0, circ0_x, circ0_y);
+    RootPanel.get().add(circ1, circ1_x, circ1_y);
 
   }
 
