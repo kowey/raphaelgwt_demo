@@ -68,9 +68,18 @@ public class MyDrawing extends Raphael {
     final Raphael.Rect box2 = new Raphael.Rect(box2_x, box2_y, 150, 100, 20);
 
     PathBuilder pb = new PathBuilder();
-    pb.M(box1_x,  box1_y);
-    pb.L(circ0_x, circ0_y);
-            // box1_x, box1_y, circ0_x, circ0_y);
+    pb.M(box1_x, box2_y)
+            .m(-60, -20)
+            .L(circ0_x, circ0_y)
+            .l(80, 0)
+            .l(0, -40)
+            .l(70, 60)
+            .l(-70, 60)
+            .l(0, -40)
+            .l(-80, 0)
+            .z();
+
+    final Path p = new Path(pb);
 
     box1.attr("fill", "red");
     box2.attr("fill", "#d1b48c");
