@@ -30,6 +30,8 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.hydro4ge.raphaelgwt.client.*;
 
 import java.util.HashMap;
@@ -42,12 +44,48 @@ public class DraggableCircle extends Raphael
   private final int radius;
   private final Map<String, String> attrs;
 
+  private Raphael parent;
   private Circle circle;
 
-  public DraggableCircle(int radius) {
+  /**
+   *
+   * @param parent can be null
+   * @param radius
+   */
+  public DraggableCircle(Raphael parent, int radius) {
     super((radius+PADDING)*2, (radius+PADDING)*2);
+    this.parent = parent;
     this.radius = radius;
     this.attrs  = new HashMap<String, String>();
+  }
+
+  public DraggableCircle(int radius) {
+     this(null, radius);
+  }
+
+  private int parentRelativeTop(AbsolutePanel p) {
+    return (this.parent == null)
+            ? 0
+            : this.parent.getAbsoluteTop() - p.getAbsoluteTop();
+  }
+
+  private int parentRelativeLeft(AbsolutePanel p) {
+    return (this.parent == null)
+            ? 0
+            : this.parent.getAbsoluteLeft() - p.getAbsoluteLeft();
+  }
+
+  /**
+   *
+   * @param p
+   * @param cx
+   * @param cy
+   */
+  public void addToPanel(AbsolutePanel p, int cx, int cy) {
+    int pushout = 0 - (radius + PADDING);
+    int pushout_x = parentRelativeLeft(p) + pushout;
+    int pushout_y = parentRelativeTop(p) + pushout;
+    p.add(this, cx + pushout_x, cy + pushout_y);
   }
 
   @Override

@@ -89,8 +89,8 @@ public class MyDrawing extends Raphael {
     final PickupDragController dragController = new PickupDragController(RootPanel.get(), true);
 
     // add a new circle to the boundary panel and make it draggable
-    final DraggableCircle circ1 = new DraggableCircle(40);
-    final DraggableCircle circ0 = new DraggableCircle(20);
+    final DraggableCircle circ0 = new DraggableCircle(this, 20);
+    final DraggableCircle circ1 = new DraggableCircle(this, 40);
 
     dragController.makeDraggable(circ0);
     dragController.makeDraggable(circ1);
@@ -104,8 +104,11 @@ public class MyDrawing extends Raphael {
 
     // FIXME: I'm not thrilled about accessing the RootPanel directly here but
     // I can't seem to find a way around it
-    RootPanel.get().add(circ0, circ0_x, circ0_y);
-    RootPanel.get().add(circ1, circ1_x, circ1_y);
+    RootPanel rp = RootPanel.get();
+    circ0.addToPanel(rp, circ0_x,circ0_y);
+    circ1.addToPanel(rp, circ1_x, circ1_y);
+
+
 
   }
 

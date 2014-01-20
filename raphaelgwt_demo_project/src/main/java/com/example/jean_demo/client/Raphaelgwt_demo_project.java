@@ -22,6 +22,13 @@ public class Raphaelgwt_demo_project implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
+    // Ugh: it's not clear if we want this workaround or not.
+    // Right now it's commented out because the current DraggableCircle
+    // positions things using RootPanel.getAbsoluteTop() (and left)
+    // which breaks if we set this position:relative attribute
+    // But I can't figure out how to position things without using
+    // getAbsoluteTop
+    //
     // Cargo-culted from raphaelgwt demo; not sure how important it is to us
     // workaround for GWT issue 1813
     // http://code.google.com/p/google-web-toolkit/issues/detail?id=1813
