@@ -70,16 +70,8 @@ public class MyDrawing extends Raphael {
     //final Raphael.Rect rectB2 = new Raphael.Rect(box2_x, box2_y, 150+5,  100+5, 0);
 
     PathBuilder pb = new PathBuilder();
-    pb.M(box1_x, box2_y)
-            .m(-60, -20)
-            .L(circ0_x, circ0_y)
-            .l(80, 0)
-            .l(0, -40)
-            .l(70, 60)
-            .l(-70, 60)
-            .l(0, -40)
-            .l(-80, 0)
-            .z();
+    pb.M(box1_x + 50, box2_y + 50)
+            .L(box2_x, box2_y + 50);
 
     final Path p = new Path(pb);
 
