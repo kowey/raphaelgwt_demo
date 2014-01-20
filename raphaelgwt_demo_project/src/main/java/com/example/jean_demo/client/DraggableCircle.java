@@ -16,34 +16,13 @@
 
 package com.example.jean_demo.client;
 
-import com.google.gwt.event.dom.client.HasMouseDownHandlers;
-import com.google.gwt.event.dom.client.HasMouseMoveHandlers;
-import com.google.gwt.event.dom.client.HasMouseOutHandlers;
-import com.google.gwt.event.dom.client.HasMouseUpHandlers;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.hydro4ge.raphaelgwt.client.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class DraggableCircle extends Raphael
-    implements HasMouseDownHandlers, HasMouseUpHandlers, HasMouseMoveHandlers, HasMouseOutHandlers
+public class DraggableCircle extends DraggableShape
 {
   static  final private int PADDING = 5;
   private final int radius;
-  private final Map<String, String> attrs;
-
-  private Raphael parent;
-  private Circle circle;
 
   /**
    *
@@ -51,72 +30,25 @@ public class DraggableCircle extends Raphael
    * @param radius
    */
   public DraggableCircle(Raphael parent, int radius) {
-    super((radius+PADDING)*2, (radius+PADDING)*2);
-    this.parent = parent;
+    super(parent, (radius+PADDING)*2, (radius+PADDING)*2);
     this.radius = radius;
-    this.attrs  = new HashMap<String, String>();
   }
 
   public DraggableCircle(int radius) {
      this(null, radius);
   }
 
-  private int parentRelativeTop(AbsolutePanel p) {
-    return (this.parent == null)
-            ? 0
-            : this.parent.getAbsoluteTop() - p.getAbsoluteTop();
+  protected Shape createShape() {
+    return new Circle(this.radius+PADDING, this.radius+PADDING, this.radius);
   }
 
-  private int parentRelativeLeft(AbsolutePanel p) {
-    return (this.parent == null)
-            ? 0
-            : this.parent.getAbsoluteLeft() - p.getAbsoluteLeft();
+  protected int relativeShapeTop(int cx, int cy) {
+    return cy - (radius + PADDING);
   }
 
-  /**
-   *
-   * @param p
-   * @param cx
-   * @param cy
-   */
-  public void addToPanel(AbsolutePanel p, int cx, int cy) {
-    int pushout = 0 - (radius + PADDING);
-    int pushout_x = parentRelativeLeft(p) + pushout;
-    int pushout_y = parentRelativeTop(p) + pushout;
-    p.add(this, cx + pushout_x, cy + pushout_y);
-  }
-
-  @Override
-  public void onLoad() {
-    super.onLoad();
-    circle = new Circle(this.radius+PADDING, this.radius+PADDING, this.radius);
-    circle.attr("fill", "#666");
-    for (Map.Entry<String, String> entry : attrs.entrySet()) {
-        circle.attr(entry.getKey(), entry.getValue());
-    }
-  }
-
-  public void attr(String key, String value) {
-    attrs.put(key, value);
-    if (circle != null) {
-      circle.attr(key, value);
-    }
-  }
-
-  public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
-    return this.addDomHandler(handler, MouseDownEvent.getType());
-  }
-
-  public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
-    return this.addDomHandler(handler, MouseUpEvent.getType());
-  }
-
-  public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
-    return this.addDomHandler(handler, MouseMoveEvent.getType());
-  }
-
-  public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-    return this.addDomHandler(handler, MouseOutEvent.getType());
+  protected int relativeShapeLeft(int cx, int cy) {
+    return cx - (radius + PADDING);
   }
 }
+
 
