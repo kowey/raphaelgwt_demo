@@ -111,7 +111,7 @@ public class MyDrawing extends Raphael {
     // FIXME: I'm not thrilled about accessing the RootPanel directly here but
     // I can't seem to find a way around it
     RootPanel rp = RootPanel.get();
-    circ0.addToPanel(rp, circ0_x,circ0_y);
+    circ0.addToPanel(rp, circ0_x, circ0_y);
     circ1.addToPanel(rp, circ1_x, circ1_y);
     box1.addToPanel(rp, box1_x, box1_y);
     box2.addToPanel(rp, box2_x, box2_y);
