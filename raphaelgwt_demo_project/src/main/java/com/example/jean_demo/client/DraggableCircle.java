@@ -16,7 +16,6 @@
 
 package com.example.jean_demo.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasMouseDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseMoveHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -31,7 +30,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.hydro4ge.raphaelgwt.client.*;
 
 import java.util.HashMap;
