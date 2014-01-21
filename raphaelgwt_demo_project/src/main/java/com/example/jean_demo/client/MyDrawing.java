@@ -88,10 +88,12 @@ public class MyDrawing extends Raphael {
     final Circle boundary0 = new Circle(circ0_x, circ0_y, 25);
     final Circle boundary1 = new Circle(circ1_x, circ1_y, 45);
 
+    /*
     dragController.makeDraggable(circ0);
     dragController.makeDraggable(circ1);
     dragController.makeDraggable(box1);
     dragController.makeDraggable(box2);
+*/
 
     circ0.addMouseDownHandler(new MouseDownHandler() {
       @Override
@@ -107,6 +109,11 @@ public class MyDrawing extends Raphael {
     circ1.addToPanel(rp, circ1_x, circ1_y);
     box1.addToPanel(rp, box1_x, box1_y);
     box2.addToPanel(rp, box2_x, box2_y);
+    box1.getElement().setId("kowey-box1");
+    box2.getElement().setId("kowey-box2");
+    box1.getElement().setClassName("koweybox");
+    box2.getElement().setClassName("koweybox");
+
 
 
   }

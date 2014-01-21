@@ -1,6 +1,8 @@
 package com.example.jean_demo.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import com.google.gwt.user.client.Window;
@@ -32,10 +34,35 @@ public class Raphaelgwt_demo_project implements EntryPoint {
     // Cargo-culted from raphaelgwt demo; not sure how important it is to us
     // workaround for GWT issue 1813
     // http://code.google.com/p/google-web-toolkit/issues/detail?id=1813
-    RootPanel.get().getElement().getStyle().setProperty("position" , "relative");
+    // RootPanel.get().getElement().getStyle().setProperty("position" , "relative");
+
 
 		MyDrawing d = new MyDrawing(Window.getClientWidth(),
 				Window.getClientHeight());
-		RootPanel.get().add(d);
-	}
+
+    FlowPanel window1 = new FlowPanel();
+    FlowPanel window2 = new FlowPanel();
+
+    window1.add(new Label("I'm a Flowpanel"));
+    window2.add(new Label("I'm a Flowpanel 2"));
+
+    window1.getElement().setId("window1");
+    window2.getElement().setId("window2");
+
+    window1.getElement().setClassName("window");
+    window2.getElement().setClassName("window");
+
+    RootPanel.get().add(window1);
+    RootPanel.get().add(window2);
+    RootPanel.get().add(d);
+
+
+    gwtjsPlumbDemo();
+
+  }
+
+  public static native void gwtjsPlumbDemo() /*-{
+                $wnd.gwtjsplumbdemo();
+
+        }-*/;
 }

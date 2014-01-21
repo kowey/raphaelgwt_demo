@@ -16,6 +16,7 @@
 
 package com.example.jean_demo.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -32,6 +33,20 @@ public abstract class DraggableShape extends Raphael
   private Raphael parent;
   private Shape shape;
 
+  class DragEndHandler implements MouseUpHandler {
+    private DraggableShape dshape;
+
+    public DragEndHandler(DraggableShape dshape) {
+      super();
+      this.dshape = dshape;
+    }
+
+    @Override
+    public void onMouseUp(MouseUpEvent event) {
+      GWT.log("mouse up! " + event.getClientX() + " " + dshape.getAbsoluteLeft());
+    }
+  }
+
   /**
    * @param parent can be null
    */
@@ -39,8 +54,11 @@ public abstract class DraggableShape extends Raphael
     super(width, height);
     this.parent = parent;
     this.attrs  = new HashMap<String, String>();
+    this.addMouseUpHandler(new DragEndHandler(this));
   }
 
+  /* use this version if RootPanel is set to position relative */
+  /*
   private int parentRelativeTop(AbsolutePanel p) {
     return (this.parent == null)
             ? 0
@@ -51,6 +69,20 @@ public abstract class DraggableShape extends Raphael
     return (this.parent == null)
             ? 0
             : this.parent.getAbsoluteLeft() - p.getAbsoluteLeft();
+  }
+  */
+
+  // use this version if RootPanel is absolute
+  private int parentRelativeTop(AbsolutePanel p) {
+    return (this.parent == null)
+            ? 0
+            : this.parent.getAbsoluteTop();
+  }
+
+  private int parentRelativeLeft(AbsolutePanel p) {
+    return (this.parent == null)
+            ? 0
+            : this.parent.getAbsoluteLeft();
   }
 
   protected abstract Shape createShape();

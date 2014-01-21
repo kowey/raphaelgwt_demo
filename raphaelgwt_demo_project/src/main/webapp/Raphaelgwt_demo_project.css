@@ -32,3 +32,40 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+/* jsplumb experiments */
+
+.window {
+        border: 1px solid black;
+        height: 100px;
+        width: 100px;
+        position: relative;
+        margin:10px;
+        z-index:4000;
+}
+
+
+.koweybox {
+        border: 2px dashed red;
+        position: relative;
+        z-index:4000;
+}
+
+#window1 {
+        left: 50px;
+        top: 30px;
+}
+
+#window2 {
+        left: 200px;
+        top:10px;
+}
+
+#window4 {
+        left: 200px;
+        top:10px;
+}
+
+#window3 {
+        height: 20px;
+}
