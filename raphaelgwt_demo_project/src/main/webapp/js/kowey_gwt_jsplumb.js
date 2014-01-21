@@ -5,7 +5,7 @@ function gwtjsplumbdemo() {
     jsPlumb.Defaults.DragOptions = { cursor: "pointer", zIndex:2000 };
     jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:2 };
     jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" };
-    jsPlumb.Defaults.Anchors =  [ "Right", "Left" ];
+    jsPlumb.Defaults.Anchors =  [ "AutoDefault", "AutoDefault" ];
 
     // declare some common values:
     var arrowCommon = { foldback:0.3, fillStyle:fillColor, width:8 };
@@ -15,9 +15,7 @@ function gwtjsplumbdemo() {
          ]
     ];
 
-    jsPlumb.connect({source:"window1", target:"window2", overlays:overlays});
     jsPlumb.connect({source:"kowey-box1", target:"kowey-box2", overlays:overlays});
-    jsPlumb.draggable($(".window"));
     jsPlumb.draggable($(".koweybox"));
 
 

@@ -40,20 +40,6 @@ public class Raphaelgwt_demo_project implements EntryPoint {
 		MyDrawing d = new MyDrawing(Window.getClientWidth(),
 				Window.getClientHeight());
 
-    FlowPanel window1 = new FlowPanel();
-    FlowPanel window2 = new FlowPanel();
-
-    window1.add(new Label("I'm a Flowpanel"));
-    window2.add(new Label("I'm a Flowpanel 2"));
-
-    window1.getElement().setId("window1");
-    window2.getElement().setId("window2");
-
-    window1.getElement().setClassName("window");
-    window2.getElement().setClassName("window");
-
-    RootPanel.get().add(window1);
-    RootPanel.get().add(window2);
     RootPanel.get().add(d);
 
 

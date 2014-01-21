@@ -23,6 +23,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.hydro4ge.raphaelgwt.client.Raphael;
 import com.hydro4ge.raphaelgwt.client.PathBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * simple drawing demonstration
  */
@@ -80,7 +83,7 @@ public class MyDrawing extends Raphael {
 
     // create a DragController to manage drag-n-drop actions
     // note: This creates an implicit DropController for the boundary panel
-    final PickupDragController dragController = new PickupDragController(RootPanel.get(), true);
+    // final PickupDragController dragController = new PickupDragController(RootPanel.get(), true);
 
     // add a new circle to the boundary panel and make it draggable
     final DraggableCircle circ0 = new DraggableCircle(this, 20);
@@ -109,13 +112,23 @@ public class MyDrawing extends Raphael {
     circ1.addToPanel(rp, circ1_x, circ1_y);
     box1.addToPanel(rp, box1_x, box1_y);
     box2.addToPanel(rp, box2_x, box2_y);
+
     box1.getElement().setId("kowey-box1");
     box2.getElement().setId("kowey-box2");
-    box1.getElement().setClassName("koweybox");
-    box2.getElement().setClassName("koweybox");
-
-
-
+    List<DraggableShape> shapes = new ArrayList<DraggableShape>();
+    shapes.add(box1);
+    shapes.add(box2);
+    shapes.add(circ0);
+    shapes.add(circ1);
+    for (DraggableShape s : shapes) {
+      s.getElement().setClassName("koweybox");
+    }
+    gwtjsPlumbDemo();
   }
+
+  public static native void gwtjsPlumbDemo() /*-{
+                $wnd.gwtjsplumbdemo();
+
+        }-*/;
 
 }
