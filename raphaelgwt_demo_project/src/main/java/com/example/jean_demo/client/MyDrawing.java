@@ -17,9 +17,10 @@ package com.example.jean_demo.client;
  */
 
 import com.allen_sauer.gwt.dnd.client.PickupDragController;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
 
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.*;
 import com.hydro4ge.raphaelgwt.client.Raphael;
 import com.hydro4ge.raphaelgwt.client.PathBuilder;
 
@@ -72,12 +73,6 @@ public class MyDrawing extends Raphael {
     //final Raphael.Rect rectB1 = new Raphael.Rect(box1_x, box1_y, 50+5, 100+5, 0);
     //final Raphael.Rect rectB2 = new Raphael.Rect(box2_x, box2_y, 150+5,  100+5, 0);
 
-    PathBuilder pb = new PathBuilder();
-    pb.M(box1_x + 50, box2_y + 50)
-            .L(box2_x, box2_y + 50);
-
-    final Path p = new Path(pb);
-
     box1.attr("fill", "red");
     box2.attr("fill", "#d1b48c");
 
@@ -88,41 +83,51 @@ public class MyDrawing extends Raphael {
     // add a new circle to the boundary panel and make it draggable
     final DraggableCircle circ0 = new DraggableCircle(this, 20);
     final DraggableCircle circ1 = new DraggableCircle(this, 40);
-    final Circle boundary0 = new Circle(circ0_x, circ0_y, 25);
-    final Circle boundary1 = new Circle(circ1_x, circ1_y, 45);
+    //final Circle circ0 = new Circle(circ0_x, circ0_y, 25);
+    //final Circle circ1 = new Circle(circ1_x, circ1_y, 45);
+
 
     /*
-    dragController.makeDraggable(circ0);
-    dragController.makeDraggable(circ1);
-    dragController.makeDraggable(box1);
-    dragController.makeDraggable(box2);
-*/
-
     circ0.addMouseDownHandler(new MouseDownHandler() {
       @Override
       public void onMouseDown(MouseDownEvent event) {
         circ0.attr("fill", "green");
       }
-    });
+    });*/
 
     // FIXME: I'm not thrilled about accessing the RootPanel directly here but
     // I can't seem to find a way around it
     RootPanel rp = RootPanel.get();
+
+    AbsolutePanel subpanel = new AbsolutePanel();
+    subpanel.setWidth("400px");
+    subpanel.setHeight("400px");
+    rp.add(subpanel, 5, 5);
+
     circ0.addToPanel(rp, circ0_x, circ0_y);
-    circ1.addToPanel(rp, circ1_x, circ1_y);
+    circ1.addToPanel(subpanel, circ1_x, circ1_y);
+
+    /*
     box1.addToPanel(rp, box1_x, box1_y);
     box2.addToPanel(rp, box2_x, box2_y);
+    */
 
-    box1.getElement().setId("kowey-box1");
-    box2.getElement().setId("kowey-box2");
+    circ0.getElement().setId("kowey-box1");
+    circ1.getElement().setId("kowey-box2");
+
+
     List<DraggableShape> shapes = new ArrayList<DraggableShape>();
+  /*
     shapes.add(box1);
     shapes.add(box2);
+    */
     shapes.add(circ0);
     shapes.add(circ1);
     for (DraggableShape s : shapes) {
       s.getElement().setClassName("koweybox");
     }
+    subpanel.getElement().setClassName("koweydrag");
+    subpanel.getElement().setId("kowey-container");
     gwtjsPlumbDemo();
   }
 

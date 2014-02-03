@@ -48,6 +48,13 @@ h1 {
 .koweybox {
         border: 2px dashed red;
         position: relative;
+        z-index:4005;
+        padding-bottom: -1px;
+}
+
+.koweydrag {
+        border: 2px dashed blue;
+        position: relative;
         z-index:4000;
         padding-bottom: -1px;
 }

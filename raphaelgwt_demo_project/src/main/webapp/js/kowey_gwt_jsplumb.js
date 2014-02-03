@@ -1,6 +1,7 @@
 function gwtjsplumbdemo() {
 
     var fillColor = "gray";
+    jsPlumb.Defaults.Container = $("body");
     jsPlumb.Defaults.Connector = [ "Bezier", { curviness:25 } ];
     jsPlumb.Defaults.DragOptions = { cursor: "pointer", zIndex:2000 };
     jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:2 };
@@ -16,7 +17,11 @@ function gwtjsplumbdemo() {
     ];
 
     jsPlumb.connect({source:"kowey-box1", target:"kowey-box2", overlays:overlays});
-    jsPlumb.draggable($(".koweybox"));
+    //jsPlumb.draggable($(".koweybox"));
+    jsPlumb.draggable($("#kowey-box1"));
+    jsPlumb.draggable($("#kowey-box2"), {containment:"#kowey-container"});
+    jsPlumb.draggable($(".koweydrag"));
+
 
 
  }
