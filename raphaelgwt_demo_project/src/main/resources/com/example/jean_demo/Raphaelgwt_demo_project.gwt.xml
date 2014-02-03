@@ -9,6 +9,7 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.hydro4ge.raphaelgwt.RaphaelGWT' />
+   <inherits name="com.google.common.base.Base"/>
 
     <!-- DO NOT COMMIT! just for eric's local fast compile (Chrome) -->
     <inherits name='com.google.gwt.user.UserAgent'/>

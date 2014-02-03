@@ -35,45 +35,17 @@ h1 {
 
 /* jsplumb experiments */
 
-.window {
-        border: 1px solid black;
-        height: 100px;
-        width: 100px;
-        position: relative;
-        margin:10px;
-        z-index:4000;
-}
-
-
 .koweybox {
         border: 2px dashed red;
-        position: relative;
+        position: absolute;
         z-index:4005;
         padding-bottom: -1px;
 }
 
 .koweydrag {
         border: 2px dashed blue;
-        position: relative;
+        position: absolute;
         z-index:4000;
         padding-bottom: -1px;
 }
 
-#window1 {
-        left: 50px;
-        top: 30px;
-}
-
-#window2 {
-        left: 200px;
-        top:10px;
-}
-
-#window4 {
-        left: 200px;
-        top:10px;
-}
-
-#window3 {
-        height: 20px;
-}
