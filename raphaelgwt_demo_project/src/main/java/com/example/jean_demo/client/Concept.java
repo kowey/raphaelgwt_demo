@@ -13,7 +13,8 @@ import lombok.NonNull;
  * Created by kowey on 2014-02-03.
  */
 public @Data
-class Concept extends AbsolutePanel implements Cloneable, MouseOverHandler, MouseOutHandler {
+class Concept extends AbsolutePanel implements Cloneable,
+        MouseOverHandler, MouseOutHandler, MouseUpHandler, MouseDownHandler, MouseMoveHandler {
 
     @Data class RenameHandler implements KeyUpHandler {
         @NonNull private final Concept concept;
@@ -40,7 +41,8 @@ class Concept extends AbsolutePanel implements Cloneable, MouseOverHandler, Mous
 
     @NonNull final String id;
     @NonNull Optional<String> label = Optional.absent();
-
+    private boolean isMoving = false;
+    private int circleRadius = 30;
     final private TextBox wLabel = new TextBox();
 
     public String getCurveId() {
@@ -49,15 +51,17 @@ class Concept extends AbsolutePanel implements Cloneable, MouseOverHandler, Mous
 
     @Override
     public void onLoad() {
+        final int diameter = 2 * this.circleRadius;
+
         this.getElement().setId(this.id);
-        this.setWidth("150px");
-        this.setHeight("70px");
+        this.setWidth((diameter + 90) + "px");
+        this.setHeight((diameter + 10) + "px");
         super.onLoad();
 
-        final DraggableCircle wCircle = new DraggableCircle(30);
+        final DraggableCircle wCircle = new DraggableCircle(this.circleRadius);
         wCircle.getElement().setId(getCurveId());
 
-        this.add(this.wLabel, 60, 5);
+        this.add(this.wLabel, diameter + 5, 5);
         this.wLabel.addKeyUpHandler(new RenameHandler(this, wLabel));
         this.wLabel.setReadOnly(true);
 
@@ -102,6 +106,23 @@ class Concept extends AbsolutePanel implements Cloneable, MouseOverHandler, Mous
         wLabel.setReadOnly(true);
     }
 
+    @Override
+    public void onMouseUp(MouseUpEvent event) {
+        this.isMoving = false;
+    }
+
+    @Override
+    public void onMouseDown(MouseDownEvent event) {
+        this.isMoving = true;
+    }
+
+    @Override
+    public void onMouseMove(MouseMoveEvent event) {
+        if (this.isMoving) {
+            this.onMouseOut(null);
+        }
+    }
+
     private void justSetLabel(@NonNull Optional<String> label) {
         this.label = label;
     }
@@ -114,6 +135,9 @@ class Concept extends AbsolutePanel implements Cloneable, MouseOverHandler, Mous
     public void switchToConceptMode() {
         addDomHandler(this, MouseOverEvent.getType());
         addDomHandler(this, MouseOutEvent.getType());
+        addDomHandler(this, MouseUpEvent.getType());
+        addDomHandler(this, MouseDownEvent.getType());
+        addDomHandler(this, MouseMoveEvent.getType());
         mouseOverHighlight();
         setLabel(Optional.<String>absent());
     }

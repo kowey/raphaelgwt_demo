@@ -74,6 +74,7 @@ public class MyDrawing extends Raphael {
 
         final Concept conceptTemplate = new Concept("template");
         conceptTemplate.startTemplateMode("CONCEPT");
+        conceptTemplate.setCircleRadius(50);
 
         // FIXME: I'm not thrilled about accessing the RootPanel directly here but
         // I can't seem to find a way around it
