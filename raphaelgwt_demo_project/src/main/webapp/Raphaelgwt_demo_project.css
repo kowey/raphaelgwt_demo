@@ -49,3 +49,40 @@ h1 {
         padding-bottom: -1px;
 }
 
+.concept {
+        border: 2px transparent;
+        position: absolute;
+        z-index:4000;
+        padding-bottom: -1px;
+}
+
+.concept .gwt-TextBox-readonly {
+    border: none;
+}
+
+.template .gwt-TextBox-readonly {
+    border: none;
+}
+
+.concept-button {
+    display: none;
+}
+
+.concept-over .concept-button {
+    display: inline;
+}
+
+.concept-over {
+        border: 2px dashed blue;
+        position: absolute;
+        z-index:4000;
+        padding-bottom: -1px;
+}
+
+.template {
+        border: 2px dotted grey;
+        position: absolute;
+        z-index:4000;
+        padding-bottom: -1px;
+}
+

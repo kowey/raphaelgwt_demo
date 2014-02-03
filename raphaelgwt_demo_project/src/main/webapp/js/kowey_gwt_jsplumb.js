@@ -23,6 +23,5 @@ function gwtjsplumbdemo() {
  }
 
 function make_draggable(draggableId) {
-    alert("make_draggable: " + draggableId);
     jsPlumb.draggable($(draggableId));
 }

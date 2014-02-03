@@ -66,15 +66,14 @@ public class MyDrawing extends Raphael {
         final int circ0_x = (int)Math.round(cx * 0.5);
         final int circ0_y = (int)Math.round(cy * 0.5);
 
-        final int template_x = 400;
+        final int template_x = 800;
         final int template_y = 100;
 
         // add a new circle to the boundary panel and make it draggable
         final DraggableCircle circ0 = new DraggableCircle(this, 20);
 
         final Concept conceptTemplate = new Concept("template");
-        conceptTemplate.setLabel(Optional.of("hello"));
-        conceptTemplate.getElement().getStyle().setVisibility(Style.Visibility.HIDDEN);
+        conceptTemplate.startTemplateMode("CONCEPT");
 
         // FIXME: I'm not thrilled about accessing the RootPanel directly here but
         // I can't seem to find a way around it
